@@ -1,14 +1,3 @@
-<?php 
-    session_start();
-
-    if(!isset($_SESSION['cart'])) {
-        $_SESSION['cart'] = [];
-    }
-
-    include('classes/CRUD.php');
-    $crud = new CRUD;
-
-?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -16,18 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>eStore</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <style>
-        .product-image {
-            height: 120px;
-            display: block;
-            margin: 20px auto;
-        }
-
-        .card-text-product {
-            height: 60px;
-            overflow: hidden;
-        }
-    </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -45,30 +22,20 @@
                 <a class="nav-link" href="shop.php">Shop</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="cart.php">
-                    Cart
-                    <?php if(isset($_SESSION['cart'])): ?>
-                        (<?= count($_SESSION['cart']) ?>)
-                    <?php endif; ?>
-                </a>
+                <a class="nav-link" href="cart.php">Cart (0)</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <?= (isset($_SESSION['fullname'])) ? $_SESSION['fullname'] : 'Guest' ?>
+                        Profile
                     </a>
                     <ul class="dropdown-menu">
-                        <?php if(!isset($_SESSION['is_loggedin']) || $_SESSION['is_loggedin'] != 1): ?>
                         <li><a class="dropdown-item" href="login.php">Login</a></li>
                         <li><a class="dropdown-item" href="register.php">Register</a></li>
-                        <?php endif; ?>
-                        <?php if(isset($_SESSION['is_loggedin']) && ($_SESSION['is_loggedin'] == 1)): ?>
-                        <li><a class="dropdown-item" href="dashboard/index.php">Dashboard</a></li>
-                        <?php endif; ?>
                     </ul>
                 </li>
             </ul>
-            <form class="d-flex" id="search-form" role="search" onsubmit="event.preventDefault();">
-                <input class="form-control me-2" name="search" id="search" placeholder="Search" value="<?= (isset($_GET['search']) && (strlen($_GET['search']) >= 3)) ? $_GET['search'] : '' ?>" />
+            <form class="d-flex" role="search">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
             </form>
             </div>
         </div>
