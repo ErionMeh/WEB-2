@@ -23,7 +23,7 @@
         define("VAT", 0.05);
 
         $products=[
-           ["name" => "Samsung Galaxy A14", "price" => 2450.50, "discount" => 0.15, "stock" => 3, "img" => "assets/img/galaxy-a14.jpg"]
+           ["name" => "Samsung Galaxy A14", "price" => 2450.50, "discount" => 0.15, "stock" => 3, "img" => "assets/img/galaxy-a14.jpg"],
            ["name" => "iPhone 13 Pro", "price" => 999.00, "discount" => 0.10, "stock" => 0, "img" => "assets/img/iphone-13-pro.jpg"],
            ["name" => "MacBook Air M2", "price" => 1249.00, "discount" => 0.12, "stock" => 8, "img" => "assets/img/macbook-air.jpg"],
            ["name" => "Sony WH-1000XM5", "price" => 349.99, "discount" => 0.20, "stock" => 2, "img" => "assets/img/sony-headphones.jpg"],
@@ -54,31 +54,32 @@
         ?>
 
             <div class="col-lg-3 col-md-3 col-sm-12">
-                <div class="card" style="width: 18rem;">
-                    <img src="https://hhstsyoejx.gjirafa.net/gj50/img/204546/thumb/0.jpg" class="card-img-top" alt="...">
+                <div class="card h-100" style="width: 18rem;">
+                    <img src="<?= $img ?>" class="card-img-top" alt="<?= $name ?>">
                     <div class="card-body">
                         <h5 class="card-title"><?= $name ?></h5>
                         
+                        <?php
+                        if ($stock == 0) {
+                            echo "<span class='badge bg-danger mb-2'>Out of stock</span>";
+                        } elseif ($stock < 5) {
+                            echo "<span class='badge bg-danger mb-2'>Limited stock – $stock left</span>";
+                        } else {
+                            echo "<span class='badge bg-success mb-2'>In stock</span>";
+                        }
+                        ?>
+                        <p class="card-text mb-1"><del><?= number_format($price, 2) ?> &euro;</del></p>
+                        <p class="card-text mb-1 text-danger">Discount: <?= $discount * 100 ?>%</p>
+                        <p class="card-text text-success fw-bold"> Final Price incl.VAT: <?= number_format($final, 2) ?> &euro;</p>
 
-                        <a href="#" class="btn btn-outline-secondary">View product</a>
+                        <a href="#" class="btn btn-outline-secondary mt-2">View product</a>
                     </div>
-                </div> <!-- ./card -->
-            </div> <!-- ./col -->
-            <div class="col-lg-3 col-md-3 col-sm-12">
-                <div class="card" style="width: 18rem;">
-                    <img src="https://hhstsyoejx.gjirafa.net/gj50/img/204546/thumb/0.jpg" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Product title</h5>
-                        <p class="card-text">
-                            <strike>2450.50 &euro;</strike>
-                            <span class="badge bg-danger">10%</span>
-                            <span>2120 &euro;</span>
-                        </p>
-                        <a href="#" class="btn btn-outline-secondary">View product</a>
-                    </div>
-                </div> <!-- ./card -->
-            </div> <!-- ./col -->
-        </div> <!-- ./row -->
+                </div> 
+            </div> 
+            
+            <?php endforeach; ?>
+
+        </div> 
     </div>
 </div>
 
