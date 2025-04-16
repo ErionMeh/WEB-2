@@ -12,6 +12,13 @@ $password = $_POST['password1'] ?? '';
 $confirm_password = $_POST['password2'] ?? '';
 
 if (!empty($fullname) && !empty($email) && !empty($password) && !empty($confirm_password)) {
+
+    $regExEmail = "/^[^0-9\-\.\@][a-zA-Z0-9\-\.\_]+@[a-zA-Z]{2,}\.[a-z]{2,5}$/";
+
+    if (!preg_match($regExEmail, $email)) {
+        $error = "Email adresa <strong>$email</strong> nuk është valide.";}
+
+    
     if ($password !== $confirm_password) {
         $error = 'Passwords do not match!';
     } else {
