@@ -48,6 +48,10 @@
             $stock = $product['stock'];
             $img = $product['img'];
 
+            if (!preg_match("/^[0-9]+(\.[0-9]{1,2})?$/", $price)) {
+                echo "<div class='alert alert-danger'>Invalid price format for product: $name</div>";
+            }
+
             $priceAfterDiscount = $price - ($price * $discount);
             $vatAmount = $priceAfterDiscount * VAT;
             $final = $priceAfterDiscount + $vatAmount;
