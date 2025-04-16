@@ -52,7 +52,7 @@
         <div class="row">
             <div class="col-lg-3 col-md-3 col-sm-12">
                 <div class="card" style="width: 18rem;">
-                    <img src="https://hhstsyoejx.gjirafa.net/gj50/img/204546/thumb/0.jpg" class="card-img-top" alt="iPhone 14 Pro">
+                    <img src="assets/img/Iphone.png" class="card-img-top" alt="iPhone 14 Pro">
                     <div class="card-body">
                         <h5 class="card-title">iPhone 14 Pro</h5>
                         <p class="card-text">2450.50 &euro;</p>
@@ -62,7 +62,7 @@
             </div> <!-- ./col -->
             <div class="col-lg-3 col-md-3 col-sm-12">
                 <div class="card" style="width: 18rem;">
-                    <img src="https://hhstsyoejx.gjirafa.net/gj50/img/189865/thumb/0.jpg" class="card-img-top" alt="Samsung Galaxy S23 Ultra">
+                    <img src="assets/img/Samsung.png" class="card-img-top" alt="Samsung Galaxy S23 Ultra">
                     <div class="card-body">
                         <h5 class="card-title">Samsung Galaxy S23 Ultra</h5>
                         <p class="card-text">
@@ -76,7 +76,7 @@
             </div> <!-- ./col -->
             <div class="col-lg-3 col-md-3 col-sm-12">
                 <div class="card" style="width: 18rem;">
-                    <img src="https://hhstsyoejx.gjirafa.net/gj50/img/196546/thumb/0.jpg" class="card-img-top" alt="Apple Watch Series 8">
+                    <img src="assets/img/Apple Watch.png" class="card-img-top" alt="Apple Watch Series 8">
                     <div class="card-body">
                         <h5 class="card-title">Apple Watch Series 8</h5>
                         <p class="card-text">899.99 &euro;</p>
@@ -86,7 +86,7 @@
             </div> <!-- ./col -->
             <div class="col-lg-3 col-md-3 col-sm-12">
                 <div class="card" style="width: 18rem;">
-                    <img src="https://hhstsyoejx.gjirafa.net/gj50/img/176290/thumb/0.jpg" class="card-img-top" alt="AirPods Pro 2">
+                    <img src="assets/img/Airpods.png" class="card-img-top" alt="AirPods Pro 2">
                     <div class="card-body">
                         <h5 class="card-title">AirPods Pro 2</h5>
                         <p class="card-text">
@@ -100,7 +100,7 @@
             </div> <!-- ./col -->
             <div class="col-lg-3 col-md-3 col-sm-12 mt-4">
                 <div class="card" style="width: 18rem;">
-                    <img src="https://hhstsyoejx.gjirafa.net/gj50/img/205690/thumb/0.jpg" class="card-img-top" alt="ASUS ROG Strix G15">
+                    <img src="assets/img/Asus.png" class="card-img-top" alt="ASUS ROG Strix G15">
                     <div class="card-body">
                         <h5 class="card-title">ASUS ROG Strix G15</h5>
                         <p class="card-text">1899.99 &euro;</p>
@@ -110,7 +110,7 @@
             </div> <!-- ./col -->
             <div class="col-lg-3 col-md-3 col-sm-12 mt-4">
                 <div class="card" style="width: 18rem;">
-                    <img src="https://hhstsyoejx.gjirafa.net/gj50/img/202140/thumb/0.jpg" class="card-img-top" alt="LG OLED C2 65-inch">
+                    <img src="assets/img/LG.png" class="card-img-top" alt="LG OLED C2 65-inch">
                     <div class="card-body">
                         <h5 class="card-title">LG OLED C2 65-inch</h5>
                         <p class="card-text">
@@ -124,7 +124,7 @@
             </div> <!-- ./col -->
             <div class="col-lg-3 col-md-3 col-sm-12 mt-4">
                 <div class="card" style="width: 18rem;">
-                    <img src="https://hhstsyoejx.gjirafa.net/gj50/img/178621/thumb/0.jpg" class="card-img-top" alt="JBL Charge 5">
+                    <img src="assets/img/JBL.png" class="card-img-top" alt="JBL Charge 5">
                     <div class="card-body">
                         <h5 class="card-title">JBL Charge 5</h5>
                         <p class="card-text">129.99 &euro;</p>
@@ -134,7 +134,7 @@
             </div> <!-- ./col -->
             <div class="col-lg-3 col-md-3 col-sm-12 mt-4">
                 <div class="card" style="width: 18rem;">
-                    <img src="https://hhstsyoejx.gjirafa.net/gj50/img/187523/thumb/0.jpg" class="card-img-top" alt="Sony Alpha a7 III">
+                    <img src="assets/img/sony.png" class="card-img-top" alt="Sony Alpha a7 III">
                     <div class="card-body">
                         <h5 class="card-title">Sony Alpha a7 III</h5>
                         <p class="card-text">

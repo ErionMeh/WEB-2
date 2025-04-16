@@ -1,6 +1,6 @@
 <?php include('includes/header.php'); 
-require_once '../classes/User.php';
-require_once '../classes/Admin.php';
+require_once 'classes/User.php';
+require_once 'classes/Admin.php';
 
 $error = '';
 $success = '';
@@ -27,7 +27,6 @@ if (!empty($email) && !empty($password)) {
     }
 }
 
-include('includes/header.php');
 
 ?>
 
