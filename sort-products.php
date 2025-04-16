@@ -16,10 +16,7 @@
 
 <?php
 $products = [
-    ["emri" => "Bluze Adidas", "cmimi" => 35],
-    ["emri" => "Atlete Nike", "cmimi" => 55],
-    ["emri" => "Xhaketë Zara", "cmimi" => 80],
-    ["emri" => "Geta Puma", "cmimi" => 25]
+   
 ];
 
 $sortType = $_GET['sort'] ?? '';
