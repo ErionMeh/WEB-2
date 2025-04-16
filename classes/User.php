@@ -58,6 +58,22 @@ class User{
             $this->password = $password;
         }
 
+            // Metoda për regjistrim
+        public function register($fullname, $email, $password) {
+        $this->fullname = $fullname;
+        $this->email = $email;
+        $this->password = $password;
+        return true;
+                        }
+
+         //Metoda per login
+         public function login($email, $password) {
+            if ($email === $this->email && $password === $this->password) {
+                return true;
+            }
+            return false;
+        }
+
 
 }
 
