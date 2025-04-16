@@ -1,6 +1,6 @@
 <?php 
 include('includes/header.php');
-require_once '../classes/User.php';
+require_once 'classes/User.php';
 
 $error = '';
 $success = '';
