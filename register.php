@@ -1,4 +1,32 @@
-<?php include('includes/header.php'); ?>
+<?php 
+include('includes/header.php');
+require_once '../classes/User.php';
+
+$error = '';
+$success = '';
+
+
+$fullname = $_POST['fullname'] ?? '';
+$email = $_POST['email'] ?? '';
+$password = $_POST['password1'] ?? '';
+$confirm_password = $_POST['password2'] ?? '';
+
+if (!empty($fullname) && !empty($email) && !empty($password) && !empty($confirm_password)) {
+    if ($password !== $confirm_password) {
+        $error = 'Passwords do not match!';
+    } else {
+        $user = new User();
+        $user->register($fullname, $email, $password);
+        $success = 'Registration successful!';
+    }
+} elseif (!empty($_POST)) {
+    $error = 'All fields are required!';
+}
+
+
+
+
+?>
 
 
 <!-- Login -->
