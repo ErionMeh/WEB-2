@@ -15,7 +15,7 @@
 </form>
 
 <?php
-// Lista e produkteve (veshje, elektronikë, aksesorë)
+
 $products = [
     ["emri" => "Laptop Lenovo", "cmimi" => 599.99],
     ["emri" => "Bluze Adidas", "cmimi" => 39.50],
@@ -25,10 +25,10 @@ $products = [
     ["emri" => "Mouse Gaming", "cmimi" => 19.99],
 ];
 
-// Marrim llojin e sortimit nga URL
+
 $sortType = $_GET['sort'] ?? '';
 
-// Bëjmë sortimin sipas kërkesës
+
 if ($sortType === 'name_asc') {
     usort($products, fn($a, $b) => strcmp($a['emri'], $b['emri']));
 } elseif ($sortType === 'name_desc') {
@@ -85,7 +85,7 @@ print_r($produktetAssoc);
 <h3>Shembull me global</h3>
 
 <?php
-$zbritje = 0.15; // 15% zbritje
+$zbritje = 0.15; 
 
 function llogaritCmimin($cmimi) {
     global $zbritje;
