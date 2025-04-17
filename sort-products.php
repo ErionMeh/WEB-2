@@ -1,6 +1,6 @@
 <?php include 'includes/header.php'; ?>
 
-<h2>Produktet</h2>
+<h2>Produktet Elektronike</h2>
 
 <form method="get" style="margin-bottom: 20px;">
     <label>Sorto sipas:</label>
@@ -15,16 +15,14 @@
 </form>
 
 <?php
-
 $products = [
     ["emri" => "Laptop Lenovo", "cmimi" => 599.99],
-    ["emri" => "Bluze Adidas", "cmimi" => 39.50],
     ["emri" => "Smartphone Samsung", "cmimi" => 299.90],
     ["emri" => "Kufje Wireless", "cmimi" => 24.99],
-    ["emri" => "Pallto Dimri", "cmimi" => 89.00],
     ["emri" => "Mouse Gaming", "cmimi" => 19.99],
+    ["emri" => "Tablet iPad", "cmimi" => 429.00],
+    ["emri" => "Monitor Dell", "cmimi" => 189.00],
 ];
-
 
 $sortType = $_GET['sort'] ?? '';
 
@@ -39,7 +37,7 @@ if ($sortType === 'name_asc') {
     usort($products, fn($a, $b) => $b['cmimi'] <=> $a['cmimi']);
 }
 
-
+// Shfaqim produktet
 echo "<ul>";
 foreach ($products as $p) {
     echo "<li><strong>{$p['emri']}</strong> – {$p['cmimi']}€</li>";
@@ -51,16 +49,16 @@ echo "</ul>";
 <h3>Shembuj të sortimeve në PHP</h3>
 
 <?php
-$emrat = ["Këmishë", "Telefon", "Orë", "Pantallona"];
-$cmimet = ["A" => 150, "B" => 75, "C" => 220];
-$produktetAssoc = ["x" => "Tablet", "a" => "Laptop", "b" => "Monitor"];
+$emrat = ["Tablet", "Laptop", "Monitor", "Smartphone"];
+$cmimet = ["A" => 299, "B" => 129, "C" => 479];
+$produktetAssoc = ["x" => "iPhone", "a" => "AirPods", "b" => "iMac"];
 
 echo "<h4>sort()</h4>";
 sort($emrat);
 print_r($emrat);
 
 echo "<h4>rsort()</h4>";
-$emrat = ["Këmishë", "Telefon", "Orë", "Pantallona"];
+$emrat = ["Tablet", "Laptop", "Monitor", "Smartphone"];
 rsort($emrat);
 print_r($emrat);
 
@@ -85,14 +83,14 @@ print_r($produktetAssoc);
 <h3>Shembull me global</h3>
 
 <?php
-$zbritje = 0.15; 
+$zbritje = 0.10; 
 
 function llogaritCmimin($cmimi) {
     global $zbritje;
     return $cmimi - ($cmimi * $zbritje);
 }
 
-$cmimiOrigjinal = 200;
+$cmimiOrigjinal = 500;
 $cmimiMeZbritje = llogaritCmimin($cmimiOrigjinal);
 
 echo "Çmimi origjinal: $cmimiOrigjinal €<br>";
@@ -100,4 +98,5 @@ echo "Çmimi me zbritje: $cmimiMeZbritje €";
 ?>
 
 <?php include 'includes/footer.php'; ?>
+
 
