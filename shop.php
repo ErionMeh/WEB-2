@@ -48,8 +48,10 @@
             $stock = $product['stock'];
             $img = $product['img'];
 
+            $name = preg_replace('/\s+/', ' ', trim($name));  //Heqja e hapesirave te teperta
+
             if (!preg_match("/^[0-9]+(\.[0-9]{1,2})?$/", $price)) {
-                echo "<div class='alert alert-danger'>Invalid price format for product: $name</div>";
+                echo "<div class='alert alert-danger'>Invalid price format for product: $name</div>";  //Validim i cmimit
             }
 
             $priceAfterDiscount = $price - ($price * $discount);
