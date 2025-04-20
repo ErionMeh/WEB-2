@@ -57,6 +57,8 @@
             $priceAfterDiscount = $price - ($price * $discount);
             $vatAmount = $priceAfterDiscount * VAT;
             $final = $priceAfterDiscount + $vatAmount;
+            $final = preg_replace("/[€,\\s]/", "", $final);
+
         ?>
 
             <div class="col-lg-3 col-md-3 col-sm-12">
