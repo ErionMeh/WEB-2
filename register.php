@@ -1,41 +1,6 @@
-<?php 
+<?php
 include('includes/header.php');
 require_once 'classes/User.php';
-
-$error = '';
-$success = '';
-
-
-$fullname = $_POST['fullname'] ?? '';
-$email = $_POST['email'] ?? '';
-$password = $_POST['password1'] ?? '';
-$confirm_password = $_POST['password2'] ?? '';
-
-if (!empty($fullname) && !empty($email) && !empty($password) && !empty($confirm_password)) {
-
-    $regExEmail = "/^[^0-9\-\.\@][a-zA-Z0-9\-\.\_]+@[a-zA-Z]{2,}\.[a-z]{2,5}$/";
-
-    if (!preg_match($regExEmail, $email)) {
-        $error = "Email adresa <strong>$email</strong> nuk është valide.";}
-
-    
-    if ($password !== $confirm_password) {
-        $error = 'Passwords do not match!';
-    } else {
-        $user = new User();
-        $user->register($fullname, $email, $password);
-        $success = 'Registration successful!';
-    }
-} elseif (!empty($_POST)) {
-    $error = 'All fields are required!';
-}
-
-
-
-
-?>
-
-<?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $fullname = $_POST['fullname'];
     $email = $_POST['email'];
