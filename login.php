@@ -1,4 +1,38 @@
-<?php include('includes/header.php'); ?>
+<?php include('includes/header.php'); 
+require_once 'classes/User.php';
+require_once 'classes/Admin.php';
+
+$error = '';
+$success = '';
+
+
+$email = $_POST['email'] ?? '';
+$password = $_POST['password'] ?? '';
+
+
+if (!empty($email) && !empty($password)) {
+    
+    $admin = new Admin();
+    if ($admin->login($email, $password)) {
+        $success = 'Login successful (as Admin)';
+    } else {
+        
+        $user = new User();
+        $user->register("Demo User", $email, $password);
+        if ($user->login($email, $password)) {
+            $success = 'Login successful (as User)';
+        } else {
+            $error = 'Invalid email or password!';
+        }
+    }
+}
+
+
+?>
+
+
+
+
 
 
 <!-- Login -->
