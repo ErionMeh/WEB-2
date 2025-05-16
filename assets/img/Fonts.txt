@@ -1,0 +1,9 @@
+Fonts used in this design:
+
+Font: Oswald
+Author: Vernon Adams,Kalapi Gajjar,Cyreal
+Url: https://fonts.google.com/specimen/Oswald
+
+Font: Readex Pro
+Author: Thomas Jockin,Nadine Chahine,Bonnie Shaver-Troup,Santiago Orozco,Héctor Gómez
+Url: https://fonts.google.com/specimen/Readex+Pro
