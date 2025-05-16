@@ -16,26 +16,15 @@
             </div>
             </div>
             
-<div class="carousel-item">
-    <div class="nude-slide">
-        <div class="image-wrapper">
-            <img src="assets/img/3.jpg" class="centered-img" alt="Second slide">
-        </div>
-        <div class="carousel-caption d-none d-md-block">
-        
-        </div>
+<<div class="carousel-item">
+    <img src="assets/img/3.jpg" class="d-block w-100" alt="Second slide">
+    <div class="carousel-caption d-none d-md-block">
     </div>
 </div>
 
-
 <div class="carousel-item">
-    <div class="nude-slide">
-        <div class="image-wrapper">
-            <img src="assets/img/2.webp" class="centered-img" alt="Third slide">
-        </div>
-        <div class="carousel-caption d-none d-md-block">
-            
-        </div>
+    <img src="assets/img/2.webp" class="d-block w-100" alt="Third slide">
+    <div class="carousel-caption d-none d-md-block">
     </div>
 </div>
 
