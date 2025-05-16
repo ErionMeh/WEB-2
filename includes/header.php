@@ -36,9 +36,10 @@
                     </ul>
                 </li>
             </ul>
-            <form class="d-flex" role="search">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            </form>
+                     <form class="d-flex" role="search" method="get" action="shop.php">
+    <input class="form-control me-2" type="search" placeholder="Search products..." name="search" value="<?= $_GET['search'] ?? '' ?>">
+    <button class="btn btn-outline-light" type="submit">Search</button>
+</form>
             </div>
         </div>
     </nav>
