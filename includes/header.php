@@ -5,6 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>eStore</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+<style>
+.carousel-item img {
+    width: 100%;
+    height: auto;
+    object-fit: cover; 
+    display: block;
+}
+
+.carousel-item img {
+  width: 100%;       
+  height: 500px;     
+  object-fit: cover; 
+  display: block;
+}
+
+.image-wrapper {
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    height: 500px; 
+    overflow: hidden; 
+}
+</style>
+
 </head>
 <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
