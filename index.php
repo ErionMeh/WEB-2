@@ -1,34 +1,33 @@
 <?php 
 session_start();
 
-
 $show_cookie_popup = true;
 
-if (isset($_COOKIE['cookie_accepted']) && $_COOKIE['cookie_accepted'] == 'yes') {
+
+if (isset($_COOKIE['cookie_accepted']) && $_COOKIE['cookie_accepted'] === 'yes') {
     $show_cookie_popup = false;
 }
+
 
 if (isset($_SESSION['cookie_popup_cancelled']) && $_SESSION['cookie_popup_cancelled'] === true) {
     $show_cookie_popup = false;
 }
 
-
-if (isset($_GET['accept_cookies']) && $_GET['accept_cookies'] == 'yes') {
-    setcookie('cookie_accepted', 'yes',  0); 
-    if (isset($_SESSION['cookie_popup_cancelled'])) {
-        unset($_SESSION['cookie_popup_cancelled']);
-    }
+if (isset($_GET['accept_cookies']) && $_GET['accept_cookies'] === 'yes') {
+    setcookie('cookie_accepted', 'yes', time() + (30 * 24 * 60 * 60)); // 30 ditë
+    unset($_SESSION['cookie_popup_cancelled']);
     header("Location: " . strtok($_SERVER["REQUEST_URI"], '?'));
     exit();
 }
 
-if (isset($_GET['cancel_cookies']) && $_GET['cancel_cookies'] == 'yes') {
+if (isset($_GET['cancel_cookies']) && $_GET['cancel_cookies'] === 'yes') {
     $_SESSION['cookie_popup_cancelled'] = true;
     header("Location: " . strtok($_SERVER["REQUEST_URI"], '?'));
     exit();
 }
 
-include('includes/header.php'); ?>
+include('includes/header.php'); 
+?>
 
 
 <div class="promotions">
@@ -186,8 +185,7 @@ include('includes/header.php'); ?>
 
 <?php include('includes/footer.php'); ?>
 
-    <?php if ($show_cookie_popup): ?>
-
+  <?php if ($show_cookie_popup): ?>
 <div style="position:fixed; bottom:10px; left:10px; right:10px; background:#333; color:#fff; padding:15px; text-align:center; z-index:9999; font-family: Arial, sans-serif;">
     Kjo faqe përdor cookies për përmirësimin e shërbimit.
     <a href="?accept_cookies=yes" style="color:#4CAF50; font-weight:bold; text-decoration:none; margin-left:10px;">Pranoj</a>
