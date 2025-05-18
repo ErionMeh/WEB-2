@@ -46,7 +46,7 @@
                 <a class="nav-link" href="shop.php">Shop</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="cart.php">Cart (0)</a>
+                <a class="nav-link" href="cart.php">Cart</a>
                 </li>
  
 
