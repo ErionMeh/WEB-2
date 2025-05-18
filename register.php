@@ -49,20 +49,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    
-
-    
-    if ($password1 !== $password2) {
-        $errors[] = "Fjalëkalimet nuk përputhen.";
-    }
-
-    if (empty($errors)) {
-        echo "<div class='alert alert-success'>Regjistrimi u bë me sukses!</div>";
-    } else {
-        foreach ($errors as $error) {
-            echo "<div class='alert alert-danger'>$error</div>";
-        }
-    }
 }
 ?>
 

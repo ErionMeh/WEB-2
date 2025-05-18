@@ -9,18 +9,11 @@ class User {
     private $password;
     protected $role = 'user';
 
-    
-    public function __construct($conn) {
+ public function __construct($conn) {
         $this->conn = $conn;
     }
 
-   
-    public function __destruct() {
-      
-    }
-
-  
-    public function getId() {
+ public function getId() {
         return $this->id;
     }
 
@@ -39,8 +32,7 @@ class User {
     public function getPassword() {
         return $this->password;
     }
-
-  
+    
     public function setId($id) {
         $this->id = $id;
     }
@@ -57,8 +49,19 @@ class User {
         $this->password = $password;
     }
 
+    public function emailExists($email) {
+        $stmt = $this->conn->prepare("SELECT id FROM users WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->num_rows > 0;
+    }
 
     public function register($fullname, $email, $phone, $password) {
+        if ($this->emailExists($email)) {
+            return "Ky email është marrë tashmë. Zgjidh një tjetër.";
+        }
+
         $stmt = $this->conn->prepare("INSERT INTO users (fullname, email, phone, password, role) VALUES (?, ?, ?, ?, ?)");
         if (!$stmt) {
             return "Gabim me databazën: " . $this->conn->error;
@@ -76,7 +79,6 @@ class User {
         }
     }
 
-    
     public function login($email, $password) {
         $stmt = $this->conn->prepare("SELECT id, fullname, email, password, role FROM users WHERE email = ?");
         $stmt->bind_param("s", $email);
@@ -86,7 +88,6 @@ class User {
         if ($result->num_rows === 1) {
             $user = $result->fetch_assoc();
             if (password_verify($password, $user['password'])) {
-               
                 $this->id = $user['id'];
                 $this->fullname = $user['fullname'];
                 $this->email = $user['email'];
@@ -100,9 +101,7 @@ class User {
     }
 }
 
-
-
-
+?>
 
 
 
