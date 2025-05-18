@@ -1,6 +1,6 @@
 <?php
 include('includes/header.php');
-require_once 'db.php';
+require_once '..classes/db.php';
 require_once 'classes/User.php';
 
 $user = new User($conn);
