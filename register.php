@@ -1,6 +1,10 @@
 <?php
 include('includes/header.php');
+require_once 'db.php';
 require_once 'classes/User.php';
+
+$user = new User($conn);
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $fullname = $_POST['fullname'];
     $email = $_POST['email'];
@@ -28,6 +32,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!preg_match("/^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+{};:,<.>]).{8,}$/", $password1)) {
         $errors[] = "Fjalëkalimi duhet të ketë së paku 8 karaktere, një shkronjë të madhe, një numër dhe një simbol.";
     }
+      if ($password1 !== $password2) {
+        $errors[] = "Fjalëkalimet nuk përputhen.";
+    }
+
+    if (empty($errors)) {
+        $result = $user->register($fullname, $email, $phone, $password1);
+        if ($result === true) {
+            echo "<div class='alert alert-success'>Regjistrimi u bë me sukses!</div>";
+        } else {
+            echo "<div class='alert alert-danger'>$result</div>";
+        }
+    } else {
+        foreach ($errors as $error) {
+            echo "<div class='alert alert-danger'>$error</div>";
+        }
+    }
+
     
 
     

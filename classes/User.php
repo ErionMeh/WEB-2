@@ -2,6 +2,7 @@
 
 
 class User{
+    private $conn; 
 
         //Atributet
         private $id;
@@ -9,6 +10,7 @@ class User{
         private $email;
         private $password;
         protected $role = 'user'; 
+        
         
         // Konstruktori
         public function __construct($id = 0, $fullname = '', $email = '', $password = '') {
@@ -39,6 +41,10 @@ class User{
         public function getRole() {
             return $this->role;
         }
+        public function getPassword() {
+    return $this->password;
+}
+
         
         // Metodat SET
         public function setId($id) {
