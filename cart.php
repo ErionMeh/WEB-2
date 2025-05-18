@@ -8,7 +8,7 @@ include('includes/header.php');
 ?>
 
 <style>
-    /* Stil për butonat me kufi blu të hapur dhe sfond të bardhë */
+   
     .btn-outline-lightblue {
         border: 2px solid #3399ff;
         color: #3399ff;
