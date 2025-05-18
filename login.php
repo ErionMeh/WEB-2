@@ -31,10 +31,6 @@ if (!empty($email) && !empty($password)) {
 ?>
 
 
-
-
-
-
 <!-- Login -->
 <div class="auth py-5">
     <div class="container">
