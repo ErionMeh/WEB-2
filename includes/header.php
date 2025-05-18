@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>eStore</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
 <style>
 .carousel-item img {
     width: 100%;
@@ -31,6 +33,7 @@
 
 </head>
 <body>
+    
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container">
             <a class="navbar-brand" href="index.php">eStore</a>
@@ -60,6 +63,27 @@
                     </ul>
                 </li>
             </ul>
+          <?php if (isset($_SESSION['fullname'])): ?>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+               <i class="bi bi-person-circle me-1"></i>
+            <?= htmlspecialchars($_SESSION['fullname']) ?>
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="profile.php">Profili</a></li>
+            <li><a class="dropdown-item text-danger" href="logout.php">Dil</a></li>
+        </ul>
+    </li>
+
+<?php else: ?>
+    <li class="nav-item">
+        <a class="nav-link" href="login.php">Login</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="register.php">Register</a>
+    </li>
+<?php endif; ?>
+
                      <form class="d-flex" role="search" method="get" action="shop.php">
     <input class="form-control me-2" type="search" placeholder="Search products..." name="search" value="<?= $_GET['search'] ?? '' ?>">
     <button class="btn btn-outline-light" type="submit">Search</button>
@@ -67,3 +91,4 @@
             </div>
         </div>
     </nav>
+    

@@ -1,19 +1,19 @@
 <?php
 
 class User {
-    private $conn;
+    protected $conn;
 
-    private $id;
-    private $fullname;
-    private $email;
-    private $password;
+    protected $id;
+    protected $fullname;
+    protected $email;
+    protected $password;
     protected $role = 'user';
 
- public function __construct($conn) {
+    public function __construct($conn) {
         $this->conn = $conn;
     }
 
- public function getId() {
+    public function getId() {
         return $this->id;
     }
 
@@ -32,7 +32,7 @@ class User {
     public function getPassword() {
         return $this->password;
     }
-    
+
     public function setId($id) {
         $this->id = $id;
     }
@@ -96,17 +96,6 @@ class User {
                 return true;
             }
         }
-
         return false;
     }
 }
-
-?>
-
-
-
-
-
-
-
-

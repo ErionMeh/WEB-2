@@ -6,9 +6,8 @@ class Admin extends User {
 
     private $accessLevel;
 
-    public function __construct($id = 0, $fullname = '', $email = '', $password = '', $accessLevel = 'full') {
-        parent::__construct($id, $fullname, $email, $password);
-        
+    public function __construct($conn, $accessLevel = 'full') {
+        parent::__construct($conn);
         $this->role = 'admin';
         $this->accessLevel = $accessLevel;
     }
@@ -22,8 +21,21 @@ class Admin extends User {
     }
 
     public function login($email, $password) {
-        if ($email === $this->getEmail() && $password === $this->getPassword()) {
-            return true;
+        $stmt = $this->conn->prepare("SELECT id, fullname, email, password, role FROM users WHERE email = ? AND role = 'admin'");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows === 1) {
+            $admin = $result->fetch_assoc();
+            if (password_verify($password, $admin['password'])) {
+                $this->id = $admin['id'];
+                $this->fullname = $admin['fullname'];
+                $this->email = $admin['email'];
+                $this->password = $admin['password'];
+                $this->role = $admin['role'];
+                return true;
+            }
         }
         return false;
     }
@@ -36,4 +48,3 @@ class Admin extends User {
         return ($this->accessLevel === 'full' || $this->accessLevel === 'user');
     }
 }
-?>
