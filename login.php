@@ -1,38 +1,40 @@
 <?php
-session_start();  // Fillimisht hapim sesionin
+session_start();
 
 include('includes/header.php'); 
-require_once 'classes/db.php';  // Konektimi me DB, krijohet $conn
+require_once 'classes/db.php';
 require_once 'classes/User.php';
 require_once 'classes/Admin.php';
 
 $error = '';
-$success = '';
-
 $email = $_POST['email'] ?? '';
 $password = $_POST['password'] ?? '';
 
-// Nese po vie POST dhe email+password nuk jane bosh
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($email) && !empty($password)) {
     $admin = new Admin($conn);
     if ($admin->login($email, $password)) {
-        // Ruaj session për adminin
-        $_SESSION['user_id'] = $admin->getId();
-        $_SESSION['fullname'] = $admin->getFullname();
-        $_SESSION['role'] = 'admin';
+        
+        $_SESSION['user'] = [
+            'id' => $admin->getId(),
+            'name' => $admin->getFullname(),
+            'email' => $admin->getEmail(),
+            'role' => 'admin'
+        ];
 
-        // Redirect tek faqja kryesore pas login-it
         header('Location: index.php');
         exit();
     } else {
         $user = new User($conn);
         if ($user->login($email, $password)) {
-            // Ruaj session për userin
-            $_SESSION['user_id'] = $user->getId();
-            $_SESSION['fullname'] = $user->getFullname();
-            $_SESSION['role'] = 'user';
+       
+            $_SESSION['user'] = [
+                'id' => $user->getId(),
+                'name' => $user->getFullname(),
+                'email' => $user->getEmail(),
+                'role' => 'user'
+            ];
 
-            // Redirect tek faqja kryesore pas login-it
+
             header('Location: index.php');
             exit();
         } else {
@@ -42,7 +44,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($email) && !empty($password)
 }
 ?>
 
-<!-- Login -->
 <div class="auth py-5">
     <div class="container">
         <div class="row">

@@ -63,11 +63,12 @@
                     </ul>
                 </li>
             </ul>
-          <?php if (isset($_SESSION['fullname'])): ?>
+         <?php if (isset($_SESSION['user'])): ?>
+
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                <i class="bi bi-person-circle me-1"></i>
-            <?= htmlspecialchars($_SESSION['fullname']) ?>
+            <?= htmlspecialchars($_SESSION['user']['name']) ?>
         </a>
         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             <li><a class="dropdown-item" href="profile.php">Profili</a></li>

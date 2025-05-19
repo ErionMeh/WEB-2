@@ -1,9 +1,7 @@
 <?php
-
 require_once 'User.php';
 
 class Admin extends User {
-
     private $accessLevel;
 
     public function __construct($conn, $accessLevel = 'full') {
