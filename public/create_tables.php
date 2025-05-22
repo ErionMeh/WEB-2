@@ -1,6 +1,8 @@
 <?php
 require_once '../classes/db.php';
 
+$db = new Db();
+$conn = $db->conn;
 $sql = "CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     fullname VARCHAR(100) NOT NULL,

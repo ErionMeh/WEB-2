@@ -1,4 +1,7 @@
-<?php require_once '../classes/db.php'; ?>
+<?php require_once '../classes/db.php';
+$db = new Db();
+$conn = $db->conn;
+ ?>
 
 <form method="POST">
     User ID për fshirje: <input type="number" name="id"><br>

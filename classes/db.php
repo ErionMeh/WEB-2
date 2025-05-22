@@ -1,12 +1,24 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "C@mp.90HFGD";
-$dbname = "projekti";
+class Db {
+    private $servername = "localhost";
+    private $username = "root";
+    private $password = "C@mp.90HFGD";
+    private $dbname = "projekti";
+    public $conn;
 
-$conn = new mysqli($servername, $username, $password, $dbname);
+    public function __construct() {
+        $this->conn = new mysqli(
+            $this->servername,
+            $this->username,
+            $this->password,
+            $this->dbname
+        );
 
-if ($conn->connect_error) {
-    die("Lidhja me DB dështoi: " . $conn->connect_error);
+        if ($this->conn->connect_error) {
+            die("Lidhja me DB dështoi: " . $this->conn->connect_error);
+        }
+
+        $this->conn->set_charset("utf8mb4");
+    }
 }
 ?>

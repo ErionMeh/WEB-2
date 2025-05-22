@@ -1,6 +1,9 @@
 <?php
 require_once '../classes/db.php';
 
+$db = new Db();
+$conn = $db->conn;
+
 if (isset($_POST['submit'])) {
     $fullname = trim($_POST['fullname']);
     $email = trim($_POST['email']);

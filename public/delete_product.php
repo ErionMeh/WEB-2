@@ -1,5 +1,8 @@
 <?php
 require_once '../classes/db.php';
+$db = new Db();
+$conn = $db->conn;
+
 require_once '../classes/product.php';
 
 $product = new Product($conn);
