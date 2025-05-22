@@ -71,13 +71,15 @@ if (!empty($_POST)) {
                             <th>Qty</th>
                             <th>Price</th>
                         </tr>
-                        <?php foreach ($cart as $item): ?>
-                            <tr>
-                                <td><?= htmlspecialchars($item['name']) ?></td>
-                                <td><?= $item['qty'] ?></td>
-                                <td><?= number_format($item['price'] * $item['qty'], 2) ?> &euro;</td>
-                            </tr>
-                        <?php endforeach; ?>
+                       <?php foreach ($cart as &$item): ?>
+    <?php rritCmimin($item['price'], $item['qty']); ?>
+    <tr>
+        <td><?= htmlspecialchars($item['name']) ?></td>
+        <td><?= $item['qty'] ?></td>
+        <td><?= number_format($item['price'] * $item['qty'], 2) ?> &euro;</td>
+    </tr>
+<?php endforeach; ?>
+
                     </table>
                 </div>
             <?php else: ?>
@@ -87,4 +89,9 @@ if (!empty($_POST)) {
     </div>
 </div>
 
-<?php include('includes/footer.php'); ?>
+<?php 
+function rritCmimin(&$cmimi, $sasia) {
+    $cmimi += 5 * $sasia; 
+}
+
+include('includes/footer.php'); ?>

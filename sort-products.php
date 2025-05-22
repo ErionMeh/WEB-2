@@ -24,6 +24,15 @@ $products = [
     ["emri" => "Monitor Dell", "cmimi" => 189.00],
 ];
 
+$kopjeMeReferenc = [];
+
+foreach ($products as &$p) {
+    $kopjeMeReferenc[] = &$p;
+}
+
+
+$kopjeMeReferenc[0]['cmimi'] += 50; 
+
 $sortType = $_GET['sort'] ?? '';
 
 
@@ -37,12 +46,14 @@ if ($sortType === 'name_asc') {
     usort($products, fn($a, $b) => $b['cmimi'] <=> $a['cmimi']);
 }
 
-// Shfaqim produktet
+
 echo "<ul>";
 foreach ($products as $p) {
     echo "<li><strong>{$p['emri']}</strong> – {$p['cmimi']}€</li>";
 }
 echo "</ul>";
+echo "<p><strong>Kontroll me referencë:</strong> Çmimi i produktit të parë: {$products[0]['cmimi']}€</p>";
+
 ?>
 
 <hr>

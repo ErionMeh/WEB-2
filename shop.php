@@ -6,62 +6,10 @@
     border-radius: 20px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.15);
-}
-
-.card-img-top {
-    height: 200px;
-    object-fit: cover;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-}
-
-.card-title {
-    font-size: 1.1rem;
-    font-weight: 600;
-    min-height: 48px;
-    color: #333;
-}
-
-.card-text {
-    font-size: 0.95rem;
-    color: #555;
-}
-
-.btn-outline-secondary {
-    border-radius: 30px;
-    padding: 6px 20px;
-    font-weight: 500;
-    transition: all 0.3s ease;
-}
-
-.btn-outline-secondary:hover {
-    background-color: #333;
-    color: #fff;
-}
-
-.badge {
-    font-size: 0.8rem;
-    padding: 6px 10px;
-    border-radius: 12px;
-}
-
-.products .container {
-    max-width: 1200px;
-}
-
-.card {
-    border: none;
-    border-radius: 20px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
     height: 100%;
     display: flex;
     flex-direction: column;
+    animation: fadeIn 0.5s ease-in-out;
 }
 
 .card:hover {
@@ -107,17 +55,22 @@
     background-color: #333;
     color: #fff;
 }
-.card {
-    animation: fadeIn 0.5s ease-in-out;
+
+.badge {
+    font-size: 0.8rem;
+    padding: 6px 10px;
+    border-radius: 12px;
+}
+
+.products .container {
+    max-width: 1200px;
 }
 
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
 }
-
 </style>
-
 
 <div class="products py-5">
     <div class="container">
@@ -126,21 +79,18 @@
                 <h2>Explore products</h2>
             </div>
             <div>
-               <form method="get" action="shop.php">
-    <select name="filter" id="filter" class="form-control" onchange="this.form.submit()">
-        <option value="">Filter products ↓</option>
-        <option value="price_asc" <?= (isset($_GET['filter']) && $_GET['filter'] == 'price_asc') ? 'selected' : '' ?>>Price: Low to High</option>
-        <option value="price_desc" <?= (isset($_GET['filter']) && $_GET['filter'] == 'price_desc') ? 'selected' : '' ?>>Price: High to Low</option>
-        <option value="name_asc" <?= (isset($_GET['filter']) && $_GET['filter'] == 'name_asc') ? 'selected' : '' ?>>Name: A-Z</option>
-        <option value="name_desc" <?= (isset($_GET['filter']) && $_GET['filter'] == 'name_desc') ? 'selected' : '' ?>>Name: Z-A</option>
-    </select>
-</form>
-
-
+                <form method="get" action="shop.php">
+                    <select name="filter" id="filter" class="form-control" onchange="this.form.submit()">
+                        <option value="">Filter products ↓</option>
+                        <option value="price_asc" <?= (isset($_GET['filter']) && $_GET['filter'] == 'price_asc') ? 'selected' : '' ?>>Price: Low to High</option>
+                        <option value="price_desc" <?= (isset($_GET['filter']) && $_GET['filter'] == 'price_desc') ? 'selected' : '' ?>>Price: High to Low</option>
+                        <option value="name_asc" <?= (isset($_GET['filter']) && $_GET['filter'] == 'name_asc') ? 'selected' : '' ?>>Name: A-Z</option>
+                        <option value="name_desc" <?= (isset($_GET['filter']) && $_GET['filter'] == 'name_desc') ? 'selected' : '' ?>>Name: Z-A</option>
+                    </select>
+                </form>
             </div>
         </div>
         <div class="row mt-5">
-            
 
         <?php
         define("VAT", 0.05);
@@ -163,32 +113,29 @@
         ];
 
         $loopIndex = 0;
+        $filter = isset($_GET['filter']) ? $_GET['filter'] : '';
 
-       $filter = isset($_GET['filter']) ? $_GET['filter'] : '';
+        if ($filter == 'price_asc') {
+            usort($products, fn($a, $b) => $a['price'] <=> $b['price']);
+        } elseif ($filter == 'price_desc') {
+            usort($products, fn($a, $b) => $b['price'] <=> $a['price']);
+        } elseif ($filter == 'name_asc') {
+            usort($products, fn($a, $b) => strcmp($a['name'], $b['name']));
+        } elseif ($filter == 'name_desc') {
+            usort($products, fn($a, $b) => strcmp($b['name'], $a['name']));
+        } 
 
+        $search = strtolower(trim($_GET['search'] ?? ''));
 
-if ($filter == 'price_asc') {
-    usort($products, fn($a, $b) => $a['price'] <=> $b['price']);
-} elseif ($filter == 'price_desc') {
-    usort($products, fn($a, $b) => $b['price'] <=> $a['price']);
-} elseif ($filter == 'name_asc') {
-    usort($products, fn($a, $b) => strcmp($a['name'], $b['name']));
-} elseif ($filter == 'name_desc') {
-    usort($products, fn($a, $b) => strcmp($b['name'], $a['name']));
-} 
+        if (!empty($search)) {
+            $products = array_filter($products, function ($product) use ($search) {
+                return str_contains(strtolower($product['name']), $search);
+            });
+        }
 
-$search = strtolower(trim($_GET['search'] ?? ''));
-
-if (!empty($search)) {
-    $products = array_filter($products, function ($product) use ($search) {
-        return str_contains(strtolower($product['name']), $search);
-    });
-}
-
-if (empty($products)) {
-                echo '<div class="col-12"><div class="alert alert-warning">No products match your search.</div></div>';
-            }
-
+        if (empty($products)) {
+            echo '<div class="col-12"><div class="alert alert-warning">No products match your search.</div></div>';
+        }
 
         foreach ($products as $product):
             $loopIndex++;
@@ -212,11 +159,11 @@ if (empty($products)) {
         ?>
 
             <div class="col-lg-3 col-md-3 col-sm-12 mb-4">
-               <div class="card h-100">
+                <div class="card h-100">
 
-                    <img src="<?= $img ?>" class="card-img-top" alt="<?= $name ?>">
+                    <img src="<?= $img ?>" class="card-img-top" alt="<?= htmlspecialchars($name) ?>">
                     <div class="card-body">
-                        <h5 class="card-title"><?= $name ?></h5>
+                        <h5 class="card-title"><?= htmlspecialchars($name) ?></h5>
 
                         <?php
                         if ($stock == 0) {
@@ -243,4 +190,4 @@ if (empty($products)) {
     </div>
 </div>
 
-<?php include('includes/footer.php'); ?>  
+<?php include('includes/footer.php'); ?>
