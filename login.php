@@ -1,6 +1,7 @@
 <?php
 session_start();
 
+
 include('includes/header.php'); 
 require_once 'classes/db.php';
 
@@ -79,3 +80,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($email) && !empty($password)
 </div>
 
 <?php include('includes/footer.php'); ?>
+<?php
+if (isset($_SESSION['error_message'])) {
+    echo '<p class="text-danger">' . $_SESSION['error_message'] . '</p>';
+    unset($_SESSION['error_message']);
+}
+?>

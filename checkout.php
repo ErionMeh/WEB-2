@@ -1,5 +1,12 @@
 <?php
 session_start();
+if (!isset($_SESSION['user']['id'])) {
+    $_SESSION['error_message'] = "Duhet të bëni log in për të përfunduar blerjen.";
+    header('Location: login.php');
+    exit();
+}
+
+$userId = $_SESSION['user']['id'];
 $cart = $_SESSION['cart'] ?? [];
 
 include('includes/header.php');
@@ -97,6 +104,7 @@ function rritCmimin(&$cmimi, $sasia) {
 require_once 'classes/logger.php';
 
 shkruajNeLog("Useri me ID $userId kreu blerje.");
+
 
 
 include('includes/footer.php'); ?>
