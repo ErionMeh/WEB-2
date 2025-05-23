@@ -1,4 +1,6 @@
 <?php 
+require_once 'classes/error-handler.php';
+
 session_start();
 
 $show_cookie_popup = true;
@@ -183,7 +185,8 @@ include('includes/header.php');
     </div>
 </div>
 
-<?php include('includes/footer.php'); ?>
+<?php include('includes/footer.php');
+ ?>
 
   <?php if ($show_cookie_popup): ?>
 <div style="position:fixed; bottom:10px; left:10px; right:10px; background:#333; color:#fff; padding:15px; text-align:center; z-index:9999; font-family: Arial, sans-serif;">

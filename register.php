@@ -1,54 +1,54 @@
-<?php
-include('includes/header.php');
+<?php include('includes/header.php');
 require_once 'classes/db.php';
 require_once 'classes/User.php';
 
+$db = new Db();
+$conn = $db->conn;
 $user = new User($conn);
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $fullname = $_POST['fullname'];
-    $email = $_POST['email'];
-    $password1 = $_POST['password1'];
-    $password2 = $_POST['password2'];
+try {
+    if ($_SERVER["REQUEST_METHOD"] != "POST") {
+        throw new Exception("Forma nuk është dërguar.");
+    }
+
+    $fullname = $_POST['fullname'] ?? '';
+    $email = $_POST['email'] ?? '';
+    $password1 = $_POST['password1'] ?? '';
+    $password2 = $_POST['password2'] ?? '';
     $phone = $_POST['phone'] ?? '';
 
-
-    $errors = [];
-
+    // Validimet:
     if (!preg_match("/^[a-zA-Z\s]+$/", $fullname)) {
-        $errors[] = "Emri duhet të përmbajë vetëm shkronja dhe hapësira.";
+        throw new Exception("Emri duhet të përmbajë vetëm shkronja dhe hapësira.");
     }
 
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $errors[] = "Email-i nuk është valid.";
+        throw new Exception("Email-i nuk është valid.");
     }
 
     if (!preg_match("/^\d{3}-\d{3}-\d{3}$/", $phone)) {
-        $errors[] = "Numri i telefonit duhet të jetë në formatin 044-123-456.";
+        throw new Exception("Numri i telefonit duhet të jetë në formatin 044-123-456.");
     }
-    
 
-    
     if (!preg_match("/^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+{};:,<.>]).{8,}$/", $password1)) {
-        $errors[] = "Fjalëkalimi duhet të ketë së paku 8 karaktere, një shkronjë të madhe, një numër dhe një simbol.";
-    }
-      if ($password1 !== $password2) {
-        $errors[] = "Fjalëkalimet nuk përputhen.";
+        throw new Exception("Fjalëkalimi duhet të ketë së paku 8 karaktere, një shkronjë të madhe, një numër dhe një simbol.");
     }
 
-    if (empty($errors)) {
-        $result = $user->register($fullname, $email, $phone, $password1);
-        if ($result === true) {
-            echo "<div class='alert alert-success'>Regjistrimi u bë me sukses!</div>";
-        } else {
-            echo "<div class='alert alert-danger'>$result</div>";
-        }
-    } else {
-        foreach ($errors as $error) {
-            echo "<div class='alert alert-danger'>$error</div>";
-        }
+    if ($password1 !== $password2) {
+        throw new Exception("Fjalëkalimet nuk përputhen.");
     }
 
+    // Regjistrimi në DB:
+    $result = $user->register($fullname, $email, $phone, $password1);
+
+    if ($result !== true) {
+        throw new Exception($result);
+    }
+
+    echo "<div class='alert alert-success'>Regjistrimi u bë me sukses!</div>";
+
+} catch (Exception $e) {
+    echo "<div class='alert alert-danger'>Gabim: " . $e->getMessage() . "</div>";
 }
 ?>
 

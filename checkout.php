@@ -15,6 +15,7 @@ if (!empty($_POST)) {
         $success = "Faleminderit për porosinë! Data e dorëzimit: <strong>$delivery_date</strong>";
         $_SESSION['cart'] = []; 
     }
+
 }
 ?>
 
@@ -93,5 +94,9 @@ if (!empty($_POST)) {
 function rritCmimin(&$cmimi, $sasia) {
     $cmimi += 5 * $sasia; 
 }
+require_once 'classes/logger.php';
+
+shkruajNeLog("Useri me ID $userId kreu blerje.");
+
 
 include('includes/footer.php'); ?>
