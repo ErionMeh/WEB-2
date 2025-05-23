@@ -20,7 +20,7 @@ try {
     $mail->Port       = 587;
 
     $mail->setFrom($env['EMAIL_USER'], 'Emri yt'); // emri qe do te shfaqet si dërgues
-    $mail->addAddress('albanimani1@gmail.com', 'Emri destinuesit'); // emaili ku do ta dergosh
+    $mail->addAddress('desti_email@example.com', 'Emri destinuesit'); // emaili ku do ta dergosh
 
     $mail->isHTML(true);
     $mail->Subject = 'Test Email nga eStore';
