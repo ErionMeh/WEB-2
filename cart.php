@@ -1,10 +1,11 @@
 <?php
-session_start();
+
+
+include('includes/header.php');
 $cart = array_values($_SESSION['cart'] ?? []);
 
 
 define("VAT", 0.05);
-include('includes/header.php');
 ?>
 
 <style>

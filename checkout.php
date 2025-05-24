@@ -1,7 +1,9 @@
 <?php
-session_start();
+include('includes/header.php');
+
+// Check if the user is logged in
 if (!isset($_SESSION['user']['id'])) {
-    $_SESSION['error_message'] = "Duhet të bëni log in për të përfunduar blerjen.";
+    $_SESSION['error_message'] = "You must log in to complete the purchase.";
     header('Location: login.php');
     exit();
 }
@@ -9,102 +11,198 @@ if (!isset($_SESSION['user']['id'])) {
 $userId = $_SESSION['user']['id'];
 $cart = $_SESSION['cart'] ?? [];
 
-include('includes/header.php');
-
+// Initialize variables
 $error = '';
 $success = '';
-$delivery_date = $_POST['delivery_date'] ?? '';
+$formData = [
+    'fullname' => '',
+    'email' => '',
+    'phone' => '',
+    'address' => '',
+    'notes' => '',
+    'delivery_date' => ''
+];
 
-if (!empty($_POST)) {
-    if (!preg_match("/^\d{2}-\d{2}-\d{4}$/", $delivery_date)) {
-        $error = "Data duhet të jetë në formatin <strong>dd-mm-yyyy</strong>.";
-    } else {
-        $success = "Faleminderit për porosinë! Data e dorëzimit: <strong>$delivery_date</strong>";
-        $_SESSION['cart'] = []; 
+// Form processing
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    try {
+        // Retrieve and sanitize form data
+        $formData = [
+            'fullname' => trim($_POST['fullname'] ?? ''),
+            'email' => trim($_POST['email'] ?? ''),
+            'phone' => trim($_POST['phone'] ?? ''),
+            'address' => trim($_POST['address'] ?? ''),
+            'notes' => trim($_POST['notes'] ?? ''),
+            'delivery_date' => trim($_POST['delivery_date'] ?? '')
+        ];
+
+        // Validation
+        if (empty($formData['fullname'])) {
+            throw new Exception("Full name is required.");
+        }
+
+        if (empty($formData['email'])) {
+            throw new Exception("Email is required.");
+        }
+
+        if (!filter_var($formData['email'], FILTER_VALIDATE_EMAIL)) {
+            throw new Exception("Invalid email format.");
+        }
+
+        if (empty($formData['phone'])) {
+            throw new Exception("Phone number is required.");
+        }
+
+        if (empty($formData['address'])) {
+            throw new Exception("Address is required.");
+        }
+
+        if (empty($formData['delivery_date'])) {
+            throw new Exception("Delivery date is required.");
+        }
+
+        if (!preg_match("/^\d{2}-\d{2}-\d{4}$/", $formData['delivery_date'])) {
+            throw new Exception("Date must be in format <strong>dd-mm-yyyy</strong>.");
+        }
+
+        if (empty($cart)) {
+            throw new Exception("Your cart is empty.");
+        }
+
+        // If validation passes
+        $success = "Thank you for your order! Delivery date: <strong>" . 
+                   htmlspecialchars($formData['delivery_date']) . "</strong>";
+        
+        // Log the order
+        require_once 'classes/logger.php';
+        shkruajNeLog("User with ID $userId placed an order with " . count($cart) . " items.");
+        
+        // Clear the cart
+        $_SESSION['cart'] = [];
+        
+    } catch (Exception $e) {
+        $error = $e->getMessage();
     }
-
 }
 ?>
 
 <div class="checkout py-5">
     <div class="container">
-        <div class="d-flex justify-content-between">
-            <div><h2>Buy from the best</h2></div>
-            <div>
-                <a href="update_cart.php?action=empty" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure?')">
-                    Empty cart
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Checkout</h2>
+            <?php if (!empty($cart)): ?>
+                <a href="update_cart.php?action=empty" class="btn btn-sm btn-outline-danger" 
+                   onclick="return confirm('Are you sure you want to clear the cart?')">
+                    Clear Cart
                 </a>
-            </div>
+            <?php endif; ?>
         </div>
 
-        <div class="my-5">
-            <h4 class="mb-4">Checkout</h4>
-            <form method="POST">
-                <div class="form-group">
-                    <label class="my-2">Fullname</label>
-                    <input type="text" name="fullname" class="form-control" placeholder="Fullname" required>
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h4 class="card-title mb-4">Personal Information</h4>
+                        
+                        <?php if ($error): ?>
+                            <div class="alert alert-danger"><?= $error ?></div>
+                        <?php endif; ?>
+                        
+                        <?php if ($success): ?>
+                            <div class="alert alert-success"><?= $success ?></div>
+                        <?php endif; ?>
+                        
+                        <form method="POST">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="fullname" class="form-label">Full Name</label>
+                                    <input type="text" name="fullname" id="fullname" class="form-control" 
+                                           value="<?= htmlspecialchars($formData['fullname']) ?>" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" name="email" id="email" class="form-control" 
+                                           value="<?= htmlspecialchars($formData['email']) ?>" required>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="phone" class="form-label">Phone</label>
+                                    <input type="text" name="phone" id="phone" class="form-control" 
+                                           value="<?= htmlspecialchars($formData['phone']) ?>" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="delivery_date" class="form-label">Delivery Date</label>
+                                    <input type="text" name="delivery_date" id="delivery_date" class="form-control" 
+                                           placeholder="dd-mm-yyyy" 
+                                           value="<?= htmlspecialchars($formData['delivery_date']) ?>" required>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="address" class="form-label">Address</label>
+                                <textarea name="address" id="address" class="form-control" rows="3" required><?= 
+                                    htmlspecialchars($formData['address']) ?></textarea>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="notes" class="form-label">Additional Notes (optional)</label>
+                                <textarea name="notes" id="notes" class="form-control" rows="2"><?= 
+                                    htmlspecialchars($formData['notes']) ?></textarea>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary w-100 py-2">Place Order</button>
+                        </form>
+                    </div>
                 </div>
-                <div class="form-group my-2">
-                    <label>Email</label>
-                    <input type="email" name="email" class="form-control" placeholder="Email" required>
+            </div>
+            
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title mb-4">Order Summary</h4>
+                        
+                        <?php if (!empty($cart)): ?>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Quantity</th>
+                                            <th>Price</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php 
+                                        $total = 0;
+                                        foreach ($cart as $item): 
+                                            $itemTotal = $item['price'] * $item['qty'];
+                                            $total += $itemTotal;
+                                        ?>
+                                            <tr>
+                                                <td><?= htmlspecialchars($item['name']) ?></td>
+                                                <td><?= $item['qty'] ?></td>
+                                                <td><?= number_format($itemTotal, 2) ?> €</td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th colspan="2">Total:</th>
+                                            <th><?= number_format($total, 2) ?> €</th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        <?php else: ?>
+                            <div class="alert alert-info">Your cart is currently empty.</div>
+                        <?php endif; ?>
+                    </div>
                 </div>
-                <div class="form-group my-2">
-                    <label>Phone</label>
-                    <input type="text" name="phone" class="form-control" placeholder="Phone" required>
-                </div>
-                <div class="form-group my-2">
-                    <label>Address</label>
-                    <textarea name="address" class="form-control" required></textarea>
-                </div>
-                <div class="form-group my-2">
-                    <label>Notes</label>
-                    <textarea name="notes" class="form-control"></textarea>
-                </div>
-                <div class="form-group my-2">
-                    <label>Delivery date</label>
-                    <input type="text" name="delivery_date" class="form-control" placeholder="16-04-2025" required>
-                </div>
-                <button type="submit" class="btn btn-sm btn-outline-primary">Submit</button>
-            </form>
-
-            <?php if (!empty($error)) echo "<p class='mt-3 text-danger'>$error</p>"; ?>
-            <?php if (!empty($success)) echo "<p class='mt-3 text-success'>$success</p>"; ?>
-
-            <h4 class="mt-5 mb-4">Basket items</h4>
-            <?php if (!empty($cart)): ?>
-                <div class="table-responsive mb-5">
-                    <table class="table table-bordered">
-                        <tr>
-                            <th>Product</th>
-                            <th>Qty</th>
-                            <th>Price</th>
-                        </tr>
-                       <?php foreach ($cart as &$item): ?>
-    <?php rritCmimin($item['price'], $item['qty']); ?>
-    <tr>
-        <td><?= htmlspecialchars($item['name']) ?></td>
-        <td><?= $item['qty'] ?></td>
-        <td><?= number_format($item['price'] * $item['qty'], 2) ?> &euro;</td>
-    </tr>
-<?php endforeach; ?>
-
-                    </table>
-                </div>
-            <?php else: ?>
-                <p>No items in basket.</p>
-            <?php endif; ?>
+            </div>
         </div>
     </div>
 </div>
 
-<?php 
-function rritCmimin(&$cmimi, $sasia) {
-    $cmimi += 5 * $sasia; 
-}
-require_once 'classes/logger.php';
-
-shkruajNeLog("Useri me ID $userId kreu blerje.");
-
-
-
-include('includes/footer.php'); ?>
+<?php include('includes/footer.php'); ?>
