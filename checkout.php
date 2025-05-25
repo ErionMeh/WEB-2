@@ -153,6 +153,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </div>
                             
                             <button type="submit" class="btn btn-primary w-100 py-2">Place Order</button>
+                            <p class="text-muted text-center mt-2 mb-0"><small>Pagesa kryhet në dorëzim (Cash on Delivery).</small></p>
                         </form>
                     </div>
                 </div>
@@ -162,6 +163,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title mb-4">Order Summary</h4>
+                        <p class="text-muted"><small>Pagesa bëhet në dorëzim të porosisë.</small></p>
                         
                         <?php if (!empty($cart)): ?>
                             <div class="table-responsive">

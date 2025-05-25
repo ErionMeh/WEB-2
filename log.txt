@@ -3,3 +3,4 @@
 2025-05-23 13:32:01 - Useri me ID 1 kreu blerje.
 2025-05-23 16:06:21 - Useri me ID 1 kreu blerje.
 2025-05-24 22:49:54 - Useri me ID 12 kreu blerje.
+2025-05-25 15:52:09 - User with ID 1 placed an order with 1 items.
