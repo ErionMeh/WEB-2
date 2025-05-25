@@ -2,28 +2,26 @@
 require_once 'classes/error-handler.php';
 include('includes/header.php');  // session_start() is now handled in header.php
 
-// Cookie consent logic
+// index.php - Zëvendëso pjesën ekzistuese të cookie consent
+
+// Cookie consent logic me më shumë opsione
 $show_cookie_popup = true;
+$cookieConsent = $_COOKIE['cookie_consent'] ?? null;
 
-if (isset($_COOKIE['cookie_accepted']) && $_COOKIE['cookie_accepted'] === 'yes') {
+if ($cookieConsent === 'accepted' || $cookieConsent === 'rejected') {
     $show_cookie_popup = false;
 }
 
-if (isset($_SESSION['cookie_popup_cancelled']) && $_SESSION['cookie_popup_cancelled'] === true) {
-    $show_cookie_popup = false;
-}
-
-// Handle cookie acceptance
-if (isset($_GET['accept_cookies']) && $_GET['accept_cookies'] === 'yes') {
-    setcookie('cookie_accepted', 'yes', time() + (30 * 24 * 60 * 60), '/'); // 30 days, available across entire site
-    unset($_SESSION['cookie_popup_cancelled']);
-    header("Location: " . strtok($_SERVER["REQUEST_URI"], '?'));
-    exit();
-}
-
-// Handle cookie rejection
-if (isset($_GET['cancel_cookies']) && $_GET['cancel_cookies'] === 'yes') {
-    $_SESSION['cookie_popup_cancelled'] = true;
+// Handle cookie acceptance with more options
+if (isset($_GET['cookie_consent'])) {
+    $value = $_GET['cookie_consent'] === 'accept' ? 'accepted' : 'rejected';
+    setcookie('cookie_consent', $value, [
+        'expires' => time() + (365 * 24 * 60 * 60),
+        'path' => '/',
+        'secure' => true,
+        'httponly' => true,
+        'samesite' => 'Lax'
+    ]);
     header("Location: " . strtok($_SERVER["REQUEST_URI"], '?'));
     exit();
 }
@@ -122,13 +120,15 @@ if (isset($_GET['cancel_cookies']) && $_GET['cancel_cookies'] === 'yes') {
 </div>
 
 <?php if ($show_cookie_popup): ?>
-<div class="cookie-consent">
+<div class="cookie-consent fixed-bottom bg-dark text-white p-3">
     <div class="container">
-        <div class="cookie-content">
-            <p>This website uses cookies to ensure you get the best experience.</p>
-            <div class="cookie-buttons">
-                <a href="?accept_cookies=yes" class="btn btn-success btn-sm">Accept</a>
-                <a href="?cancel_cookies=yes" class="btn btn-outline-secondary btn-sm ms-2">Decline</a>
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <p class="mb-md-0">We use cookies to enhance your experience. By continuing to visit this site you agree to our use of cookies.</p>
+            </div>
+            <div class="col-md-4 text-md-end mt-2 mt-md-0">
+                <a href="?cookie_consent=accept" class="btn btn-success btn-sm">Accept</a>
+                <a href="?cookie_consent=reject" class="btn btn-outline-light btn-sm ms-2">Reject</a>
             </div>
         </div>
     </div>

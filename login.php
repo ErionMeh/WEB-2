@@ -24,15 +24,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($email) && !empty($password)
         // Try admin login first
         $admin = new Admin($conn);
         if ($admin->login($email, $password)) {
+            $userId = $admin->getId();
+            
+            // Numëro vizitat
+            $visitCount = $_COOKIE['visit_count_'.$userId] ?? 0;
+            $visitCount++;
+            setcookie('visit_count_'.$userId, $visitCount, time() + (365*24*60*60), '/');
+            
+            // Ruaj preferencat (ose merre ato ekzistuese)
+            $userPrefs = $_COOKIE['user_prefs_'.$userId] ?? null;
+            $theme = 'light'; // Default
+            
+            if ($userPrefs) {
+                $prefs = json_decode($userPrefs, true);
+                $theme = $prefs['theme'] ?? 'light';
+            }
+            
             $_SESSION['user'] = [
-                'id' => $admin->getId(),
+                'id' => $userId,
                 'name' => $admin->getFullname(),
                 'email' => $admin->getEmail(),
                 'role' => 'admin',
-                'last_login' => date('Y-m-d H:i:s')
+                'last_login' => date('Y-m-d H:i:s'),
+                'created_at' => date('Y-m-d H:i:s'),
+                'theme' => $theme
             ];
-           $_SESSION['username'] = $_SESSION['user']['name'];
-
+            
+            // Ruaj preferencat në cookie
+            setcookie('user_prefs_'.$userId, json_encode([
+                'theme' => $theme,
+                'last_login' => date('Y-m-d H:i:s'),
+                'language' => 'sq',
+                'visit_count' => $visitCount
+            ]), [
+                'expires' => time() + (365 * 24 * 60 * 60),
+                'path' => '/',
+                'secure' => true,
+                'httponly' => true,
+                'samesite' => 'Lax'
+            ]);
+            
             header('Location: index.php');
             exit();
         }
@@ -40,14 +71,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($email) && !empty($password)
         // Try regular user login
         $user = new User($conn);
         if ($user->login($email, $password)) {
+            $userId = $user->getId();
+            
+            // Numëro vizitat
+            $visitCount = $_COOKIE['visit_count_'.$userId] ?? 0;
+            $visitCount++;
+            setcookie('visit_count_'.$userId, $visitCount, time() + (365*24*60*60), '/');
+            
+            // Ruaj preferencat (ose merre ato ekzistuese)
+            $userPrefs = $_COOKIE['user_prefs_'.$userId] ?? null;
+            $theme = 'light'; // Default
+            
+            if ($userPrefs) {
+                $prefs = json_decode($userPrefs, true);
+                $theme = $prefs['theme'] ?? 'light';
+            }
+            
             $_SESSION['user'] = [
-                'id' => $user->getId(),
+                'id' => $userId,
                 'name' => $user->getFullname(),
                 'email' => $user->getEmail(),
                 'role' => 'user',
-                'last_login' => date('Y-m-d H:i:s')
+                'last_login' => date('Y-m-d H:i:s'),
+                'created_at' => date('Y-m-d H:i:s'),
+                'theme' => $theme
             ];
-            $_SESSION['username'] = $_SESSION['user']['name'];
+            
+            // Ruaj preferencat në cookie
+            setcookie('user_prefs_'.$userId, json_encode([
+                'theme' => $theme,
+                'last_login' => date('Y-m-d H:i:s'),
+                'language' => 'sq',
+                'visit_count' => $visitCount
+            ]), [
+                'expires' => time() + (365 * 24 * 60 * 60),
+                'path' => '/',
+                'secure' => true,
+                'httponly' => true,
+                'samesite' => 'Lax'
+            ]);
             
             // Clear any previous error messages
             if (isset($_SESSION['error_message'])) {

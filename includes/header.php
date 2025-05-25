@@ -4,6 +4,19 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+if (isset($_SESSION['user']['theme'])) {
+    $theme = $_SESSION['user']['theme'];
+} else {
+    $theme = $_COOKIE['theme'] ?? 'light'; // Default to light theme
+}
+
+// Ruaj temën në session për akses më të shpejtë
+if (isset($_SESSION['user'])) {
+    $_SESSION['user']['theme'] = $theme;
+}
+
+
+
 // Check if user is logged in
 $isLoggedIn = isset($_SESSION['user']);
 $user = $isLoggedIn ? $_SESSION['user'] : null;
@@ -48,9 +61,40 @@ $user = $isLoggedIn ? $_SESSION['user'] : null;
             border-radius: 50%;
             margin-right: 8px;
         }
+            body.light-theme {
+        background-color: #ffffff;
+        color: #333333;
+    }
+    
+    body.dark-theme {
+        background-color: #1a1a1a;
+        color: #f0f0f0;
+    }
+    
+    .dark-theme .card {
+        background-color: #2d2d2d;
+        border-color: #444;
+    }
+:root {
+            --bg-color: <?= $theme === 'dark' ? '#1a1a1a' : '#ffffff' ?>;
+            --text-color: <?= $theme === 'dark' ? '#f0f0f0' : '#333333' ?>;
+            --card-bg: <?= $theme === 'dark' ? '#2d2d2d' : '#ffffff' ?>;
+            --border-color: <?= $theme === 'dark' ? '#444' : '#dee2e6' ?>;
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        .card {
+            background-color: var(--card-bg);
+            border-color: var(--border-color);
+        }
     </style>
 </head>
-<body>
+<body class="<?= htmlspecialchars($theme) ?>-theme">
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container">
             <a class="navbar-brand" href="index.php">eStore</a>
