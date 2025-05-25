@@ -1,5 +1,9 @@
 <?php 
 include('includes/header.php');
+include('classes/db.php'); // lidhja me DB
+
+$db = new Db();
+$conn = $db->conn;
 
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     echo "<div class='container'><h3>Invalid product ID.</h3></div>";
@@ -9,33 +13,27 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
 
 $id = (int) $_GET['id'];
 
-$products = [
-           ["name" => "Samsung Galaxy S23", "price" => 2450.50, "discount" => 0.15, "stock" => 3, "img" => "assets/img/Samsung.png"],
-           ["name" => "iPhone 13 Pro", "price" => 999.00, "discount" => 0.10, "stock" => 0, "img" => "assets/img/Iphone.png"],
-           ["name" => "MacBook Air M2", "price" => 1249.00, "discount" => 0.12, "stock" => 8, "img" => "assets/img/apple.jpg"],
-           ["name" => "Sony WH-1000XM5", "price" => 349.99, "discount" => 0.20, "stock" => 2, "img" => "assets/img/sony.png"],
-           ["name" => "Lenovo Legion 5", "price" => 1599.00, "discount" => 0.18, "stock" => 4, "img" => "assets/img/Lenovo.legion.webp"],
-           ["name" => "GoPro HERO12", "price" => 429.00, "discount" => 0.15, "stock" => 7, "img" => "assets/img/GoPro.jpg"],
-           ["name" => "JBL Flip 6 Speaker", "price" => 129.99, "discount" => 0.10, "stock" => 15, "img" => "assets/img/jbl.png"],
-           ["name" => "PlayStation 5", "price" => 599.99, "discount" => 0.05, "stock" => 1, "img" => "assets/img/PS5.jpg"],
-           ["name" => "Men's Cotton T-Shirt", "price" => 19.99, "discount" => 0.10, "stock" => 7, "img" => "assets/img/tshirt.jpg"],
-           ["name" => "Basketball Size 7", "price" => 29.99, "discount" => 0.10, "stock" => 0, "img" => "assets/img/basketball.jpg"],
-           ["name" => "Running Shoes", "price" => 89.90, "discount" => 0.18, "stock" => 4, "img" => "assets/img/shoes.jpg"],
-           ["name" => "Ceramic Coffee Mug", "price" => 11.99, "discount" => 0.10, "stock" => 12, "img" => "assets/img/a.webp"],
-           ["name" => "Gaming Mouse Pad", "price" => 17.49, "discount" => 0.20, "stock" => 6, "img" => "assets/img/b.jpg"],
-           ["name" => "Organic Green Tea (Box)", "price" => 8.99, "discount" => 0.12, "stock" => 0, "img" => "assets/img/c.webp"],
-];
+// Merr produktin nga databaza
+$sql = "SELECT * FROM products WHERE id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$result = $stmt->get_result();
 
-define("VAT", 0.05);
-
-if (!isset($products[$id - 1])) {
+if ($result->num_rows === 0) {
     echo "<div class='container'><h3>Product not found.</h3></div>";
     include('includes/footer.php');
     exit;
 }
 
-$product = $products[$id - 1];
-$priceAfterDiscount = $product['price'] - ($product['price'] * $product['discount']);
+$product = $result->fetch_assoc();
+
+// Kontrollo nëse ekziston discount, nëse jo, vendos 0
+$discount = isset($product['discount']) ? $product['discount'] : 0;
+
+define("VAT", 0.05);
+
+$priceAfterDiscount = $product['price'] - ($product['price'] * $discount);
 $vatAmount = $priceAfterDiscount * VAT;
 $final = $priceAfterDiscount + $vatAmount;
 ?>
@@ -77,7 +75,7 @@ $final = $priceAfterDiscount + $vatAmount;
         <div class="col-md-6">
             <h2><?= htmlspecialchars($product['name']) ?></h2>
             <p><del><?= number_format($product['price'], 2) ?> &euro;</del></p>
-            <p class="text-danger">Discount: <?= $product['discount'] * 100 ?>%</p>
+            <p class="text-danger">Discount: <?= $discount * 100 ?>%</p>
             <p class="text-success fw-bold">Final Price incl. VAT: <?= number_format($final, 2) ?> &euro;</p>
 
             <?php if ($product['stock'] == 0): ?>
@@ -101,4 +99,4 @@ $final = $priceAfterDiscount + $vatAmount;
     </div>
 </div>
 
-<?php include('includes/footer.php'); ?>
+<?php include('includes/footer.php'); ?> 

@@ -25,8 +25,11 @@ $sql2 = "CREATE TABLE IF NOT EXISTS products (
     description TEXT,
     price DECIMAL(10,2) NOT NULL,
     stock INT DEFAULT 0,
+    discount DECIMAL(4,2) DEFAULT 0.0,
+    img VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )";
+
 
 if ($conn->query($sql2) === TRUE) {
     echo "Tabela 'products' u krijua me sukses!<br>";
