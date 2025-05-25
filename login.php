@@ -31,6 +31,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($email) && !empty($password)
                 'role' => 'admin',
                 'last_login' => date('Y-m-d H:i:s')
             ];
+           $_SESSION['username'] = $_SESSION['user']['name'];
+
             header('Location: index.php');
             exit();
         }
@@ -45,6 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($email) && !empty($password)
                 'role' => 'user',
                 'last_login' => date('Y-m-d H:i:s')
             ];
+            $_SESSION['username'] = $_SESSION['user']['name'];
             
             // Clear any previous error messages
             if (isset($_SESSION['error_message'])) {

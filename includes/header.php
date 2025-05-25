@@ -75,6 +75,17 @@ $user = $isLoggedIn ? $_SESSION['user'] : null;
                         </a>
                     </li>
                 </ul>
+                 <!-- Përshëndetja vetëm kur është i kyçur -->
+                <?php if ($isLoggedIn && isset($_SESSION['username'])): ?>
+                    <?php
+                    function mesazhPershendetje() {
+                        return "Mirë se vini, " . htmlspecialchars($_SESSION['username']) . "!";
+                    }
+                    ?>
+                    <span class="navbar-text text-success fw-semibold me-3">
+                        <?= mesazhPershendetje(); ?>
+                    </span>
+                <?php endif; ?>
                 
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <?php if ($isLoggedIn): ?>

@@ -1,1 +1,2 @@
 2025-05-22 17:43:20 - Gabim: [8] session_start(): Ignoring session_start() because a session is already active në fajllin C:\xampp\htdocs\WEB-2-1\includes\header.php në linjën 2
+2025-05-25 20:32:35 - Gabim: [8] session_start(): Ignoring session_start() because a session is already active në fajllin C:\xampp\htdocs\WEB-2\index.php në linjën 139
