@@ -1,4 +1,7 @@
 <?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 require_once '../classes/db.php';
 require_once '../classes/product.php';
 
@@ -27,6 +30,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $description = trim($input['description'] ?? '');
         $price = floatval($input['price'] ?? 0);
         $stock = intval($input['stock'] ?? 0);
+        error_log("Update me ID: $id, Name: $name, Desc: $description, Price: $price, Stock: $stock");
+
 
         if ($product->update($id, $name, $description, $price, $stock)) {
             echo json_encode(['success' => true, 'message' => 'Produkti u përditësua me sukses!']);
